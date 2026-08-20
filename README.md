@@ -1,12 +1,29 @@
+<p align="center">
+  <img src="public/cartograf_logo.png" alt="cartograf logo" width="720" />
+</p>
+
 # cartograf
 
-Map the services and libraries detected in JavaScript and TypeScript stacks.
+**A visual map of what your projects are wired to.**
 
-cartograf scans `package.json`-based projects and renders an interactive radial map of the recognized technology stack: services, libraries, databases, auth providers, payments, deployment targets, and more.
+cartograf turns a JavaScript or TypeScript project's `package.json` into an interactive, radial map of its libraries, services, databases, auth providers, payment tools, deployment targets, and more. Each project is a compass; its detected technologies orbit the hub, grouped by category.
+
+[Try cartograf Cloud](https://www.cartograf.dev/app)
+
+## Why cartograf?
+
+Projects rarely stay simple. A dependency list can tell you that a package is installed, but it does not make it easy to see the larger picture: which external services a project relies on, where an account still needs to be created, or which tools are shared across your work.
+
+cartograf makes those connections visible. It gives you a quick way to orient yourself in an unfamiliar repository, document a stack for a teammate, and spot the services behind a project before you start changing it.
 
 ## What it does
 
-Point cartograf at a repo or a local folder and it parses `package.json`, classifies recognized technologies, samples JavaScript/TypeScript source usage, and draws a radial map. You can annotate nodes, attach account labels, and keep multiple projects open at once on a zoomable canvas.
+Point cartograf at a public GitHub repo, a local folder, or a `package.json` file. It reads the manifest, samples JavaScript/TypeScript source usage, and builds a map from a curated technology catalogue.
+
+- See recognized libraries and services grouped by category instead of in one long dependency list.
+- Label the accounts behind a service and see what still needs wiring up.
+- Keep multiple projects open together on a zoomable canvas to understand your wider stack.
+- Run it locally with no account or database: workspace data stays in your browser.
 
 The OSS app has no account system and no server database. Workspace data stays in browser storage unless you export it yourself.
 
