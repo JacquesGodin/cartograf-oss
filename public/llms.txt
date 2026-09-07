@@ -1,0 +1,49 @@
+# cartograf
+
+> Map the services and libraries detected in JavaScript and TypeScript stacks.
+
+cartograf is an open-source Next.js application that scans package.json-based projects and renders an interactive radial map of recognized technologies: services, libraries, databases, auth providers, payment processors, deployment targets, and related tooling.
+
+## What it does
+
+- Detects technologies from package.json dependencies, devDependencies, scripts, deployment config files, and sampled JavaScript/TypeScript imports
+- Classifies detected technologies by category and by layer: service or library
+- Renders a stack map with the project at the center and detected technologies grouped around it
+- Lets users annotate projects, connect account labels to service nodes, add notes, tag projects, rename them, import JSON exports, and export JSON snapshots
+- Supports multiple projects in one browser workspace
+
+## When to use cartograf
+
+Use cartograf when a developer needs to understand which libraries, hosted services, deployment tools, databases, authentication providers, or payment providers a JavaScript or TypeScript project depends on. It is especially useful for mapping several repositories into one view, preparing a stack handoff, finding services that still need account wiring, or reviewing a project before a migration.
+
+Start at https://cartograf.dev/app for the hosted interface. For a local project, use the browser's folder picker so the scan remains on the user's machine. For a public repository, provide its GitHub URL or owner/repository name. Use the OSS repository when self-hosting or inspecting the source: https://github.com/JacquesGodin/cartograf-oss.
+
+## Data flow
+
+- Local folder scans run in the browser through the File System Access API. Source files selected for local scanning are not uploaded by cartograf.
+- package.json file uploads are parsed in the browser.
+- GitHub repository and username scans call the app's `/api/stack` server route, which fetches bounded repository data from the GitHub API.
+- Workspace state in the OSS app is stored in browser localStorage unless the user exports it manually.
+
+## Accuracy and limits
+
+- Detection is best-effort and based on a curated catalogue, package/deployment metadata, and JavaScript/TypeScript import patterns.
+- GitHub scans inspect a bounded sample of repository files rather than the complete codebase.
+- Local scans use fixed file-count, source-file, and file-size limits.
+- Monorepos are not comprehensively analysed; the scanner uses the shallowest package.json it finds.
+- Browser uploads are size-capped before parsing: package.json uploads must be under 1 MB and cartograf JSON imports under 5 MB.
+
+## OSS repository
+
+The public OSS release has no account system, no server database, and no bundled cloud billing or authentication code. It can run without Clerk, Neon, Stripe, Drizzle, or private cloud environment variables.
+
+## Key URLs
+
+- App: https://cartograf.dev/app
+- GitHub (OSS): https://github.com/JacquesGodin/cartograf-oss
+- About: https://cartograf.dev/about
+- Contact: https://cartograf.dev/contact
+
+## Canonical description
+
+cartograf maps detected JavaScript stack dependencies into an interactive radial diagram from package.json files, local folders, or GitHub repositories.

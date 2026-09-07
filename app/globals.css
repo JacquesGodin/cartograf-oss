@@ -1,0 +1,417 @@
+@layer theme, base, components, utilities;
+
+@import "../node_modules/tailwindcss/theme.css" layer(theme);
+@import "../node_modules/tailwindcss/preflight.css" layer(base);
+@import "../node_modules/tw-animate-css/dist/tw-animate.css";
+
+@source "../app";
+@source "../components";
+
+@tailwind utilities source(none);
+
+/* ──────────────────────────────────────────────────────────────
+   cartograf — Editorial Instrument-Panel design system
+   Cool paper · navy-charcoal ink · warm orange accent
+   Serif body type is load-bearing — do not substitute.
+   ────────────────────────────────────────────────────────────── */
+
+:root {
+  /* Backgrounds — cool pale paper, never warm/cream */
+  --bg:        #f4f6f9;
+  --bg-2:      #ffffff;
+  --bg-3:      #e8ebf1;
+
+  /* Ink (text) — deep navy-charcoal, not warm black */
+  --ink:       #11161f;
+  --ink-mid:   #4b5566;
+  --ink-soft:  #8590a3;
+
+  /* Lines — use sparingly, prefer heavier blocks */
+  --line:      #d9deea;
+  --line-2:    #b6bdce;
+
+  /* Accent — one warm hue, no second decorative color */
+  --accent:    #d96928;
+  --accent-2:  #ee874a;
+
+  /* Semantic */
+  --signal:    #1e7a5f;
+  --warn:      #d4a017;
+
+  /* Bridge to shadcn / Tailwind theme tokens
+     (so existing ui/* components inherit the new palette) */
+  --background:           var(--bg);
+  --foreground:           var(--ink);
+  --card:                 var(--bg-2);
+  --card-foreground:      var(--ink);
+  --popover:              var(--bg-2);
+  --popover-foreground:   var(--ink);
+  --primary:              var(--accent);
+  --primary-foreground:   var(--bg);
+  --secondary:            var(--bg-3);
+  --secondary-foreground: var(--ink);
+  --muted:                var(--bg-3);
+  --muted-foreground:     var(--ink-mid);
+  --accent-foreground:    var(--bg);
+  --destructive:          #b3261e;
+  --destructive-foreground: #ffffff;
+  --border:               var(--line);
+  --input:                var(--line);
+  --ring:                 var(--accent);
+  --radius: 2px;
+}
+
+/* Dark mode is intentionally NOT supported.
+   See DESIGN_SYSTEM.md §10 — light-only by design. */
+
+@theme inline {
+  --font-display: var(--font-display), 'Inter', system-ui, sans-serif;
+  --font-sans:    var(--font-body), 'Source Serif Pro', Georgia, serif;
+  --font-serif:   var(--font-body), 'Source Serif Pro', Georgia, serif;
+  --font-mono:    var(--font-mono), ui-monospace, 'JetBrains Mono', monospace;
+
+  --color-background:        var(--background);
+  --color-foreground:        var(--foreground);
+  --color-card:              var(--card);
+  --color-card-foreground:   var(--card-foreground);
+  --color-popover:           var(--popover);
+  --color-popover-foreground:var(--popover-foreground);
+  --color-primary:           var(--primary);
+  --color-primary-foreground:var(--primary-foreground);
+  --color-secondary:         var(--secondary);
+  --color-secondary-foreground:var(--secondary-foreground);
+  --color-muted:             var(--muted);
+  --color-muted-foreground:  var(--muted-foreground);
+  --color-accent:            var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive:       var(--destructive);
+  --color-destructive-foreground:var(--destructive-foreground);
+  --color-border:            var(--border);
+  --color-input:             var(--input);
+  --color-ring:              var(--ring);
+
+  --radius-sm: 2px;
+  --radius-md: 2px;
+  --radius-lg: 2px;
+  --radius-xl: 4px;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    color-scheme: light;
+  }
+  body {
+    background: var(--bg);
+    color: var(--ink-mid);
+    font-family: var(--font-display), 'Inter', system-ui, sans-serif;
+    font-size: 16px;
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "kern" 1, "liga" 1;
+  }
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display), 'Inter', system-ui, sans-serif;
+    color: var(--ink);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+  }
+  code, pre, kbd, samp {
+    font-family: var(--font-mono), ui-monospace, monospace;
+  }
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]) {
+    cursor: pointer;
+  }
+  button:disabled,
+  [role="button"][aria-disabled="true"] {
+    cursor: not-allowed;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--accent) 25%, transparent);
+    color: var(--ink);
+  }
+  :focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+}
+
+/* ── Utility helpers ── */
+
+.font-display { font-family: var(--font-display), 'Inter', system-ui, sans-serif; }
+.font-body    { font-family: var(--font-body), 'Source Serif Pro', Georgia, serif; }
+.font-mono    { font-family: var(--font-mono), ui-monospace, monospace; }
+
+/* Reading width for prose sections (64–72ch). */
+.prose-w   { max-width: 64ch; }
+.prose-w-wide { max-width: 72ch; }
+
+/* Page-level container with edge breathing room. */
+.cg-container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 36px;
+  max-width: 1280px;
+}
+@media (max-width: 720px) {
+  .cg-container { padding: 0 20px; }
+}
+
+/* ── Animations ─────────────────────────────────────────────── */
+
+/* (Live-scan readout removed — was instrument-panel cosplay without
+   real activity to back it up. If a future surface genuinely scans,
+   re-add scan-scroll / blink-cursor / signal-bar keyframes there.) */
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ── Landing-page layout primitives ─────────────────────────── */
+
+/* The hero is intentionally NOT centered in a 1240px box.
+   It anchors to the left and the scope bleeds off the right edge. */
+.cg-hero {
+  position: relative;
+  padding: 92px 0 72px;
+  overflow: hidden;
+}
+.cg-hero-inner {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+  gap: 56px;
+  align-items: center;
+}
+.cg-hero-headline {
+  max-width: 600px;
+}
+.cg-hero-shot {
+  position: relative;
+}
+/* Let the product shot run large and bleed off the right edge — keeps the
+   editorial, instrument-peeking-in composition while showing the real app. */
+.cg-hero-shot .cg-shot {
+  width: 132%;
+}
+.cg-hero-soft-radial {
+  position: absolute; inset: 0;
+  background: radial-gradient(
+    ellipse 80% 50% at 70% 50%,
+    color-mix(in oklab, var(--accent) 6%, var(--bg)) 0%,
+    var(--bg) 60%
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+@media (max-width: 900px) {
+  .cg-hero { padding: 56px 0 40px; }
+  .cg-hero-inner { grid-template-columns: 1fr; gap: 40px; }
+  .cg-hero-headline { max-width: 100%; }
+  .cg-hero-shot .cg-shot { width: 100%; }
+}
+
+/* Product screenshot frame — a light "app window" chrome. */
+.cg-shot {
+  border-radius: 10px;
+  border: 1px solid var(--line-2);
+  background: var(--bg-2);
+  box-shadow:
+    0 1px 1px rgba(15, 23, 42, 0.04),
+    0 18px 40px -18px rgba(15, 23, 42, 0.28);
+  overflow: hidden;
+}
+.cg-shot-bar {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--line);
+  background: var(--bg-3);
+}
+.cg-shot-bar span {
+  width: 10px; height: 10px; border-radius: 50%;
+  background: var(--line-2);
+}
+.cg-shot img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* App header — logo + search/filters + cloud sync. Stacks on narrow screens
+   so the search bar drops to its own line instead of overlapping the logo. */
+.cg-app-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: 12px;
+  min-height: 60px;
+  padding: 8px 24px;
+}
+.cg-app-search {
+  grid-column: 2;
+  display: flex;
+  justify-content: center;
+}
+.cg-app-sync {
+  grid-column: 3;
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+@media (max-width: 860px) {
+  .cg-app-header {
+    grid-template-columns: minmax(0, 1fr) auto;
+  }
+  .cg-app-search {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    justify-content: flex-start;
+    padding: 4px 0 2px;
+  }
+  .cg-app-sync {
+    grid-column: 2;
+  }
+}
+
+/* Section rhythm */
+.cg-section {
+  padding: 96px 0;
+  border-top: 1px solid var(--line);
+}
+@media (max-width: 720px) {
+  .cg-section { padding: 64px 0; }
+}
+
+/* Generic two/three column responsive grids — collapse to 1fr on mobile */
+.cg-cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; }
+.cg-cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+@media (max-width: 720px) {
+  .cg-cols-2, .cg-cols-3 { grid-template-columns: 1fr; gap: 24px; }
+}
+
+/* ── Component primitives ───────────────────────────────────── */
+
+.cg-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 2px;
+  font-family: var(--font-display), 'Inter', system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+  cursor: pointer;
+  border: 1px solid transparent;
+  transition: background-color 120ms ease, color 120ms ease, border-color 120ms ease;
+  white-space: nowrap;
+}
+.cg-btn-primary {
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+}
+.cg-btn-primary:hover {
+  background: color-mix(in oklab, var(--accent) 90%, black);
+}
+.cg-btn-ghost {
+  background: transparent;
+  color: var(--ink);
+  border-color: var(--line-2);
+}
+.cg-btn-ghost:hover {
+  background: var(--bg-2);
+  border-color: var(--ink-mid);
+}
+.cg-btn-sm  { padding: 8px 14px; font-size: 13px; }
+.cg-btn-lg  { padding: 14px 24px; font-size: 15px; }
+
+.cg-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 14px 8px 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  font-size: 13px;
+  color: var(--ink-mid);
+}
+
+/* Mono micro-label — only for instrument-data, never for marketing eyebrows */
+.cg-tick {
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  font-weight: 500;
+}
+
+/* Surface card — flat, 2px corners, structural border only when needed */
+.cg-surface {
+  background: var(--bg-2);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+}
+.cg-surface-strong { border-color: var(--line-2); }
+
+/* Divider — heavier than 1px hairlines */
+.cg-rule  { height: 1px; background: var(--line-2); border: 0; }
+
+.cg-nav-link {
+  font-family: var(--font-display), 'Inter', system-ui, sans-serif;
+}
+
+/* ── Product surface (/app) layout primitives ───────────────── */
+
+.uv-topbar  { padding: 16px 32px 0; }
+/* Bottom padding leaves room for the floating "+" add-project button so it
+   never covers the last row of content. */
+.uv-content { padding: 24px 32px 88px; }
+
+.lv-columns {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr;
+  gap: 18px;
+}
+
+@media (max-width: 768px) {
+  .uv-topbar  { padding: 12px 16px 0 !important; }
+  .uv-content { padding: 16px 16px 88px !important; }
+  .uv-controls-bar { flex-wrap: wrap !important; gap: 10px !important; }
+  .lv-columns      { grid-template-columns: 1fr; }
+
+  .mv-focused-layout {
+    flex-direction: column !important;
+    gap: 12px !important;
+  }
+  .mv-focused-radial {
+    height: 75vw !important;
+    min-height: 260px !important;
+    width: 100% !important;
+    flex: none !important;
+  }
+  .mv-side-panel {
+    flex: none !important;
+    width: 100% !important;
+    padding-top: 0 !important;
+  }
+}

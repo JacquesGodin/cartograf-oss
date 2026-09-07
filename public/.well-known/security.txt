@@ -1,0 +1,3 @@
+Contact: mailto:hello@exploraworks.com
+Preferred-Languages: en
+Canonical: https://www.cartograf.dev/.well-known/security.txt
